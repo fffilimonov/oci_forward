@@ -1,6 +1,7 @@
 package main
 
 import (
+    "fmt"
     "github.com/fffilimonov/OCIP_go"
     "os"
 )
@@ -23,13 +24,15 @@ func main() {
     if larg > 4 {
         DST = os.Args[4]
     }
+    var resp string
     if MODE == "status" {
-        ocip.OCIPsend(Config,"UserCallForwardingAlwaysGetRequest",ocip.ConcatStr("","userId=",USERID))
+        resp=ocip.OCIPsend(Config,"UserCallForwardingAlwaysGetRequest",ocip.ConcatStr("","userId=",USERID))
     }
     if MODE == "false" {
-        ocip.OCIPsend(Config,"UserCallForwardingAlwaysModifyRequest",ocip.ConcatStr("","userId=",USERID),"isActive=false")
+        resp=ocip.OCIPsend(Config,"UserCallForwardingAlwaysModifyRequest",ocip.ConcatStr("","userId=",USERID),"isActive=false")
     }
     if MODE == "true" {
-        ocip.OCIPsend(Config,"UserCallForwardingAlwaysModifyRequest",ocip.ConcatStr("","userId=",USERID),"isActive=true",ocip.ConcatStr("","forwardToPhoneNumber=",DST))
+        resp=ocip.OCIPsend(Config,"UserCallForwardingAlwaysModifyRequest",ocip.ConcatStr("","userId=",USERID),"isActive=true",ocip.ConcatStr("","forwardToPhoneNumber=",DST))
     }
+    fmt.Fprint(os.Stdout,resp)
 }
